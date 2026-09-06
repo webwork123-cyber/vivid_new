@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const industrialController = require("../Controller/industrial_Controller");
+const industrialController = require("../Controller/industrial_controller");
 
 const authMiddleware = require("../../middleware/middleware");
 

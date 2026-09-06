@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const laboratoryController = require("../Controller/laboratorySupplies_Controller");
+const laboratoryController = require("../Controller/laboratorySupplies_controller");
 const authMiddleware = require("../../middleware/middleware");
 const upload = require("../../utils/uploads");
 
