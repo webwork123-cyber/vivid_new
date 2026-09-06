@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>About Us | VIVID</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/about.css" />
+</head>
+
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="about-page">
+    <section class="about-section">
+      <div class="container">
+
+        <!-- PAGE HEADER -->
+        <div class="about-header">
+          <span class="about-label">Company Profile</span>
+          <h1 class="about-title">About VIVID</h1>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="about-grid">
+          <div class="about-main">
+
+            <!-- INTRO -->
+            <div class="about-card intro-card">
+              <div class="intro-top">
+                <div class="intro-icon" aria-hidden="true">🏢</div>
+
+                <div>
+                  <h2>Who We Are</h2>
+                  <p class="intro-lead">
+                    In 1994, VIVID was established by Hasan &amp; Ahmad Abdo to support different industries in Jordan, especially in filtration and chromatography.
+                  </p>
+                </div>
+              </div>
+
+              <div class="intro-body">
+                <p>
+                  VIVID Separation and Filtration grew since that time to become one of the leading companies in Jordan in industrial filtration, in addition to chromatography products.
+                </p>
+
+                <div class="highlight-box">
+                  <div class="highlight-icon" aria-hidden="true">🛡️</div>
+                  <p>
+                    In VIVID, our strategy is to work only with high-quality products from reputable and first-class companies.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SCOPE -->
+            <div class="about-card scope-card">
+              <div class="card-title">
+                <span class="about-label small-label">What We Do</span>
+                <h2>Scope of Business</h2>
+              </div>
+
+              <div class="business-list">
+                <div class="business-item">
+                  <h3>Industrial</h3>
+                  <p>
+                    Working in industrial filters, process filters, air filters, compressed air filters, pneumatics, testing instruments for compressed air and air, nitrogen generators, dryers, air compressors, piping systems, dust collectors and vacuum pumps.
+                  </p>
+                </div>
+
+                <div class="business-item">
+                  <h3>Laboratory</h3>
+                  <p>
+                    Working in HPLC System, laboratory instruments, laboratory consumables and pharmaceutical testing instruments.
+                  </p>
+                </div>
+
+                <div class="business-item">
+                  <h3>Powder Coating &amp; Metal Treatment</h3>
+                  <p>
+                    Working in electrostatic powder coating systems and aluminum anodizing.
+                  </p>
+                </div>
+
+                <div class="business-item">
+                  <h3>Consultation</h3>
+                  <p>
+                    Consultation in laboratory applications and design, compressed air networking, quality calculations, metal treatment and paint.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/navbar.js" defer></script>
+</body>
+</html>

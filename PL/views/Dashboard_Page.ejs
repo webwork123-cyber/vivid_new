@@ -1,0 +1,670 @@
+<%
+const currentTab = typeof tab !== "undefined" ? tab : "industrial";
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vivid — Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/Dashboard_Page.css"/>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo-wrap">
+        <img src="/images/Vivid_Logo.jpg" alt="Vivid Logo" class="brand-logo" />
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Vivid</span>
+        <span class="brand-sub">Separation &amp; Filtration</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a href="#" class="nav-link <%= currentTab === 'industrial' ? 'active' : '' %>" onclick="showSection(event, 'industrial-section', this)">Industrial</a>
+      <a href="#" class="nav-link <%= currentTab === 'laboratory' ? 'active' : '' %>" onclick="showSection(event, 'laboratory-section', this)">Laboratory Supplies</a>
+      <a href="#" class="nav-link <%= currentTab === 'powder' ? 'active' : '' %>" onclick="showSection(event, 'powder-section', this)">Powder Coating</a>
+      <a href="/admin/logout" class="nav-link nav-logout">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <header class="page-header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, <%= name %></p>
+      </div>
+    </header>
+
+    <% if (typeof error !== "undefined" && error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <% if (typeof message !== "undefined" && message) { %>
+      <div class="alert alert-success"><%= message %></div>
+    <% } %>
+
+    <!-- INDUSTRIAL -->
+    <section class="dashboard-section <%= currentTab === 'industrial' ? 'active' : '' %>" id="industrial-section">
+
+      <section class="card">
+        <h2 class="card-title">Add Industrial Item</h2>
+
+        <form action="/industrial/add" method="POST" enctype="multipart/form-data" class="inline-form">
+
+          <div class="form-field">
+            <label>Category</label>
+            <select name="category" required>
+              <option value="">Select</option>
+               <option value="Compressed Air Systems">Compressed Air Systems</option>
+               <option value="Dust Collectors">Dust Collectors</option>
+               <option value="Gas Generators">Gas Generators</option>
+               <option value="Instrumentation">Instrumentation</option>
+              <option value="Liquid Process Filtration">Liquid Process Filtration</option>
+              <option value="Pneumatics">Pneumatics</option>
+               <option value="Testing Instruments">Testing Instruments</option>
+              <option value="Vacuum Pumps">Vacuum Pumps</option>
+            </select>
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Product name" required />
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Description</label>
+            <input type="text" name="description" placeholder="Short description" required />
+          </div>
+
+          <div class="form-field">
+            <label>Photo</label>
+            <div class="file-field">
+              <input type="file" name="photo" accept="image/*" />
+              <div class="file-label">
+                <i class="ti ti-photo"></i>
+                <span>Choose photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>PDF</label>
+            <div class="file-field">
+              <input type="file" name="pdf" accept="application/pdf" />
+              <div class="file-label">
+                <i class="ti ti-file-type-pdf"></i>
+                <span>Choose PDF</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field form-field--btn">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn-add">
+              <i class="ti ti-plus"></i>
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Industrial Items</h2>
+
+        <% if (typeof industrial !== "undefined" && industrial.length > 0) { %>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Category</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>PDF</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% industrial.forEach(item => { %>
+                  <tr>
+                    <td>
+                      <% if (item.photo) { %>
+                        <img src="<%= item.photo %>" alt="<%= item.name %>" class="thumb" />
+                      <% } else { %>
+                        <span class="muted">No Photo</span>
+                      <% } %>
+                    </td>
+
+                    <td><span class="badge"><%= item.category %></span></td>
+                    <td class="fw500"><%= item.name %></td>
+                    <td class="muted"><%= item.description %></td>
+
+                    <td>
+                      <% if (item.pdf) { %>
+                        <a href="<%= item.pdf %>" target="_blank" class="btn-icon btn-icon--pdf">
+                          <i class="ti ti-file-type-pdf"></i>
+                        </a>
+                      <% } else { %>
+                        <span class="muted">No PDF</span>
+                      <% } %>
+                    </td>
+
+                    <td>
+                      <div class="actions">
+                        <button type="button" class="btn-icon btn-icon--edit" onclick="toggleEdit('industrial-<%= item.id %>')">
+                          <i class="ti ti-pencil"></i>
+                        </button>
+
+                        <form action="/industrial/delete/<%= item.id %>" method="POST" style="display:inline">
+                          <button type="submit" class="btn-icon btn-icon--delete" onclick="return confirm('Delete this item?')">
+                            <i class="ti ti-trash"></i>
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr id="edit-industrial-<%= item.id %>" class="edit-row" style="display:none;">
+                    <td colspan="6">
+                      <form action="/industrial/edit/<%= item.id %>" method="POST" enctype="multipart/form-data" class="inline-form">
+
+                        <div class="form-field">
+                          <label>Category</label>
+                          <select name="category" required>
+                            <% [
+                              "Liquid Process Filtration",
+                              "Compressed Air Systems",
+                              "Gas Generators",
+                              "Dust Collectors",
+                              "Vacuum Pumps",
+                              "Testing Instruments",
+                              "Instrumentation",
+                              "Pneumatics"
+                            ].forEach(cat => { %>
+                              <option value="<%= cat %>" <%= item.category === cat ? "selected" : "" %>><%= cat %></option>
+                            <% }) %>
+                          </select>
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Name</label>
+                          <input type="text" name="name" value="<%= item.name %>" required />
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Description</label>
+                          <input type="text" name="description" value="<%= item.description %>" required />
+                        </div>
+
+                        <div class="form-field">
+                          <label>New Photo</label>
+                          <div class="file-field">
+                            <input type="file" name="photo" accept="image/*" />
+                            <div class="file-label">
+                              <i class="ti ti-photo"></i>
+                              <span>Choose photo</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-field">
+                          <label>New PDF</label>
+                          <div class="file-field">
+                            <input type="file" name="pdf" accept="application/pdf" />
+                            <div class="file-label">
+                              <i class="ti ti-file-type-pdf"></i>
+                              <span>Choose PDF</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-field form-field--btn">
+                          <label>&nbsp;</label>
+                          <div class="actions">
+                            <button type="submit" class="btn-icon btn-icon--save">
+                              <i class="ti ti-check"></i>
+                            </button>
+
+                            <button type="button" class="btn-icon btn-icon--cancel" onclick="toggleEdit('industrial-<%= item.id %>')">
+                              <i class="ti ti-x"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="empty">No industrial items yet. Add one above.</p>
+        <% } %>
+      </section>
+
+    </section>
+
+    <!-- LABORATORY -->
+    <section class="dashboard-section <%= currentTab === 'laboratory' ? 'active' : '' %>" id="laboratory-section">
+
+      <section class="card">
+        <h2 class="card-title">Add Laboratory Supply</h2>
+
+        <form action="/laboratory/add" method="POST" enctype="multipart/form-data" class="inline-form">
+
+          <div class="form-field">
+            <label>Category</label>
+            <select name="category" required>
+              <option value="">Select</option>
+              <option value="Chromatography Laboratory Products">Chromatography Laboratory Products</option>
+              <option value="HPLC System">HPLC System</option>
+              <option value="Laboratory Filtration">Laboratory Filtration</option>
+              <option value="Laboratory Instruments">Laboratory Instruments</option>
+              <option value="Pharmaceutical Testing Instruments">Pharmaceutical Testing Instruments</option>
+              <option value="Vacuum Pumps">Vacuum Pumps</option>
+            </select>
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Product name" required />
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Description</label>
+            <input type="text" name="description" placeholder="Short description" required />
+          </div>
+
+          <div class="form-field">
+            <label>Photo</label>
+            <div class="file-field">
+              <input type="file" name="photo" accept="image/*" />
+              <div class="file-label">
+                <i class="ti ti-photo"></i>
+                <span>Choose photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>PDF</label>
+            <div class="file-field">
+              <input type="file" name="pdf" accept="application/pdf" />
+              <div class="file-label">
+                <i class="ti ti-file-type-pdf"></i>
+                <span>Choose PDF</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field form-field--btn">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn-add">
+              <i class="ti ti-plus"></i>
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Laboratory Supplies</h2>
+
+        <% if (typeof laboratory !== "undefined" && laboratory.length > 0) { %>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Category</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>PDF</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% laboratory.forEach(item => { %>
+                  <tr>
+                    <td>
+                      <% if (item.photo) { %>
+                        <img src="<%= item.photo %>" alt="<%= item.name %>" class="thumb" />
+                      <% } else { %>
+                        <span class="muted">No Photo</span>
+                      <% } %>
+                    </td>
+
+                    <td><span class="badge"><%= item.category %></span></td>
+                    <td class="fw500"><%= item.name %></td>
+                    <td class="muted"><%= item.description %></td>
+
+                    <td>
+                      <% if (item.pdf) { %>
+                        <a href="<%= item.pdf %>" target="_blank" class="btn-icon btn-icon--pdf">
+                          <i class="ti ti-file-type-pdf"></i>
+                        </a>
+                      <% } else { %>
+                        <span class="muted">No PDF</span>
+                      <% } %>
+                    </td>
+
+                    <td>
+                      <div class="actions">
+                        <button type="button" class="btn-icon btn-icon--edit" onclick="toggleEdit('laboratory-<%= item.id %>')">
+                          <i class="ti ti-pencil"></i>
+                        </button>
+
+                        <form action="/laboratory/delete/<%= item.id %>" method="POST" style="display:inline">
+                          <button type="submit" class="btn-icon btn-icon--delete" onclick="return confirm('Delete this item?')">
+                            <i class="ti ti-trash"></i>
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr id="edit-laboratory-<%= item.id %>" class="edit-row" style="display:none;">
+                    <td colspan="6">
+                      <form action="/laboratory/edit/<%= item.id %>" method="POST" enctype="multipart/form-data" class="inline-form">
+
+                        <div class="form-field">
+                          <label>Category</label>
+                          <select name="category" required>
+                            <% [
+                              "Chromatography Laboratory Products",
+                              "Laboratory Filtration",
+                              "Laboratory Instruments",
+                              "HPLC System",
+                              "Pharmaceutical Testing Instruments",
+                              "Vacuum Pumps"
+                            ].forEach(cat => { %>
+                              <option value="<%= cat %>" <%= item.category === cat ? "selected" : "" %>><%= cat %></option>
+                            <% }) %>
+                          </select>
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Name</label>
+                          <input type="text" name="name" value="<%= item.name %>" required />
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Description</label>
+                          <input type="text" name="description" value="<%= item.description %>" required />
+                        </div>
+
+                        <div class="form-field">
+                          <label>New Photo</label>
+                          <div class="file-field">
+                            <input type="file" name="photo" accept="image/*" />
+                            <div class="file-label">
+                              <i class="ti ti-photo"></i>
+                              <span>Choose photo</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-field">
+                          <label>New PDF</label>
+                          <div class="file-field">
+                            <input type="file" name="pdf" accept="application/pdf" />
+                            <div class="file-label">
+                              <i class="ti ti-file-type-pdf"></i>
+                              <span>Choose PDF</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-field form-field--btn">
+                          <label>&nbsp;</label>
+                          <div class="actions">
+                            <button type="submit" class="btn-icon btn-icon--save">
+                              <i class="ti ti-check"></i>
+                            </button>
+
+                            <button type="button" class="btn-icon btn-icon--cancel" onclick="toggleEdit('laboratory-<%= item.id %>')">
+                              <i class="ti ti-x"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="empty">No laboratory supplies yet. Add one above.</p>
+        <% } %>
+      </section>
+
+    </section>
+
+    <!-- POWDER -->
+    <section class="dashboard-section <%= currentTab === 'powder' ? 'active' : '' %>" id="powder-section">
+
+      <section class="card">
+        <h2 class="card-title">Add Powder Coating Item</h2>
+
+        <form action="/powder/add" method="POST" enctype="multipart/form-data" class="inline-form">
+
+          <div class="form-field">
+            <label>Category</label>
+            <select name="category" required>
+              <option value="">Select</option>
+                <option value="Automatic Powder Coating">Automatic Powder Coating</option>
+              <option value="CUB Powder Coating System">CUB Powder Coating System</option>
+              <option value="Manual Powder Coating">Manual Powder Coating</option>
+            
+            </select>
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Product name" required />
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Description</label>
+            <input type="text" name="description" placeholder="Short description" required />
+          </div>
+
+          <div class="form-field">
+            <label>Photo</label>
+            <div class="file-field">
+              <input type="file" name="photo" accept="image/*" />
+              <div class="file-label">
+                <i class="ti ti-photo"></i>
+                <span>Choose photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field form-field--grow">
+            <label>Video Link</label>
+            <input type="text" name="video" placeholder="https://youtube.com/..." />
+          </div>
+
+          <div class="form-field form-field--btn">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn-add">
+              <i class="ti ti-plus"></i>
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Powder Coating Items</h2>
+
+        <% if (typeof powder !== "undefined" && powder.length > 0) { %>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Category</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Video</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% powder.forEach(item => { %>
+                  <tr>
+                    <td>
+                      <% if (item.photo) { %>
+                        <img src="<%= item.photo %>" alt="<%= item.name %>" class="thumb" />
+                      <% } else { %>
+                        <span class="muted">No Photo</span>
+                      <% } %>
+                    </td>
+
+                    <td><span class="badge"><%= item.category %></span></td>
+                    <td class="fw500"><%= item.name %></td>
+                    <td class="muted"><%= item.description %></td>
+
+                    <td>
+                      <% if (item.video) { %>
+                       <a
+                         href="<%= item.video && item.video.startsWith('http') ? item.video : 'https://' + item.video %>"
+                         target="_blank"
+                         class="btn-icon btn-icon--pdf"
+                        >
+                       <i class="ti ti-player-play"></i>
+                       </a>
+                      <% } else { %>
+                        <span class="muted">No Video</span>
+                      <% } %>
+                    </td>
+
+                    <td>
+                      <div class="actions">
+                        <button type="button" class="btn-icon btn-icon--edit" onclick="toggleEdit('powder-<%= item.id %>')">
+                          <i class="ti ti-pencil"></i>
+                        </button>
+
+                        <form action="/powder/delete/<%= item.id %>" method="POST" style="display:inline">
+                          <button type="submit" class="btn-icon btn-icon--delete" onclick="return confirm('Delete this item?')">
+                            <i class="ti ti-trash"></i>
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr id="edit-powder-<%= item.id %>" class="edit-row" style="display:none;">
+                    <td colspan="6">
+                      <form action="/powder/edit/<%= item.id %>" method="POST" enctype="multipart/form-data" class="inline-form">
+
+                        <div class="form-field">
+                          <label>Category</label>
+                          <select name="category" required>
+                            <% [
+                              "Manual Powder Coating",
+                              "Automatic Powder Coating",
+                              "CUB Powder Coating System"
+                            ].forEach(cat => { %>
+                              <option value="<%= cat %>" <%= item.category === cat ? "selected" : "" %>><%= cat %></option>
+                            <% }) %>
+                          </select>
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Name</label>
+                          <input type="text" name="name" value="<%= item.name %>" required />
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Description</label>
+                          <input type="text" name="description" value="<%= item.description %>" required />
+                        </div>
+
+                        <div class="form-field">
+                          <label>New Photo</label>
+                          <div class="file-field">
+                            <input type="file" name="photo" accept="image/*" />
+                            <div class="file-label">
+                              <i class="ti ti-photo"></i>
+                              <span>Choose photo</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-field form-field--grow">
+                          <label>Video Link</label>
+                          <input type="text" name="video" value="<%= item.video || '' %>" placeholder="https://youtube.com/..." />
+                        </div>
+
+                        <div class="form-field form-field--btn">
+                          <label>&nbsp;</label>
+                          <div class="actions">
+                            <button type="submit" class="btn-icon btn-icon--save">
+                              <i class="ti ti-check"></i>
+                            </button>
+
+                            <button type="button" class="btn-icon btn-icon--cancel" onclick="toggleEdit('powder-<%= item.id %>')">
+                              <i class="ti ti-x"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="empty">No powder coating items yet. Add one above.</p>
+        <% } %>
+      </section>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script>
+  function showSection(event, sectionId, link) {
+    event.preventDefault();
+
+    document.querySelectorAll(".dashboard-section").forEach(section => {
+      section.classList.remove("active");
+    });
+
+    document.querySelectorAll(".nav-link").forEach(nav => {
+      nav.classList.remove("active");
+    });
+
+    document.getElementById(sectionId).classList.add("active");
+    link.classList.add("active");
+  }
+
+  function toggleEdit(id) {
+    const row = document.getElementById("edit-" + id);
+    if (!row) return;
+    row.style.display = row.style.display === "table-row" ? "none" : "table-row";
+  }
+</script>
+
+</body>
+</html>

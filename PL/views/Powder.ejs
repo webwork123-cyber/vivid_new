@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Explore VIVID's powder coating and finishing solutions including manual powder coating, automatic powder coating, and CUB powder coating systems."
+  />
+
+  <title>Powder Coating | VIVID Separation & Filtration</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/Powder.css" />
+</head>
+
+<body>
+  <%- include("partials/navbar") %>
+
+  <main class="powder-page">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="powder-hero">
+      <div class="powder-hero-orb-1"></div>
+      <div class="powder-hero-orb-2"></div>
+
+      <svg class="powder-hero-deco" width="340" height="340" viewBox="0 0 340 340" aria-hidden="true">
+        <polygon points="170,12 308,87 308,253 170,328 32,253 32,87" fill="none" stroke="rgba(108,99,255,.18)" stroke-width="1.5"/>
+        <polygon points="170,52 278,112 278,228 170,288 62,228 62,112" fill="none" stroke="rgba(108,99,255,.12)" stroke-width="1"/>
+        <polygon points="170,92 248,137 248,203 170,248 92,203 92,137" fill="none" stroke="rgba(108,99,255,.08)" stroke-width="1"/>
+        <circle cx="170" cy="170" r="28" fill="rgba(61,53,212,.18)" stroke="rgba(108,99,255,.30)" stroke-width="1"/>
+        <circle cx="170" cy="170" r="10" fill="rgba(108,99,255,.40)"/>
+      </svg>
+
+      <div class="powder-hero-content">
+        <div class="container">
+
+          <h1 class="powder-hero-title">
+            Powder Coating<br />
+            &amp; <em>Finishing Solutions</em>
+          </h1>
+
+          <p class="powder-hero-desc">
+            Explore manual powder coating, automatic powder coating,
+            and complete CUB powder coating systems for professional
+            industrial finishing applications.
+          </p>
+
+          <div class="supplier-logos" aria-label="Powder coating supplier">
+            <div class="supplier-logo">
+              <img src="/images/OIP (8).webp" alt="Gema Powder Coating Partner" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CATEGORIES ===================== -->
+    <section class="powder-section">
+      <div class="container">
+
+        <div class="powder-header">
+          <h2 class="powder-section-title">
+            Browse by <span>Category</span>
+          </h2>
+
+          <p class="powder-section-desc">
+            Select a powder coating product line below to explore available systems,
+            specifications, and technical documents.
+          </p>
+        </div>
+
+        <div class="powder-grid">
+
+          <a href="/powder/automatic-powder-coating" class="powder-card">
+            <div class="powder-card-body">
+              <h3>Automatic Powder Coating</h3>
+              <span>Explore →</span>
+            </div>
+          </a>
+
+          <a href="/powder/cub-powder-coating-system" class="powder-card">
+            <div class="powder-card-body">
+              <h3>CUB Powder Coating System</h3>
+              <span>Explore →</span>
+            </div>
+          </a>
+
+          <a href="/powder/manual-powder-coating" class="powder-card">
+            <div class="powder-card-body">
+              <h3>Manual Powder Coating</h3>
+              <span>Explore →</span>
+            </div>
+          </a>
+
+        </div>
+
+        <div class="powder-cta">
+          <div class="powder-cta-left">
+            <h3>Need help choosing a powder coating system?</h3>
+
+            <p>
+              Our technical team is available to guide you through product selection,
+              specifications, and custom configurations.
+            </p>
+
+            <div class="powder-cta-emails">
+              <a href="mailto:ahmadabdo@vividsf.com">ahmadabdo@vividsf.com</a>
+              <a href="mailto:emadabdo@vividsf.com">emadabdo@vividsf.com</a>
+            </div>
+          </div>
+
+          <a href="/contact" class="powder-cta-btn">Contact Us →</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <%- include("partials/footer") %>
+
+  <script src="/js/navbar.js" defer></script>
+</body>
+</html>

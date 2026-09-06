@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Contact VIVID Separation & Filtration for industrial solutions, laboratory supplies, powder coating systems, maintenance support, and technical consultation."
+  />
+
+  <title>Contact Us | VIVID</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/contact.css" />
+</head>
+
+<body>
+
+  <%- include("partials/navbar") %>
+
+  <main class="contact-page">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="contact-hero">
+      <div class="container">
+        <div class="contact-hero-inner">
+
+          <span class="section-label">Get In Touch</span>
+
+          <h1 class="contact-title">
+            Let's Start a<br />
+            <span>Conversation</span>
+          </h1>
+
+          <p class="contact-subtitle">
+            Reach out to VIVID Separation &amp; Filtration for industrial,
+            laboratory, powder coating, and maintenance solutions.
+            Our team is ready to assist you.
+          </p>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="contact-main">
+      <div class="container">
+
+        <div class="contact-grid">
+
+          <!-- Address -->
+          <div class="contact-card contact-card-address">
+            <div class="contact-icon">📍</div>
+
+            <span class="contact-card-label">Visit Us</span>
+
+            <h2 class="contact-card-title">Address</h2>
+
+            <p class="contact-card-text">
+              Building 35 Industrial St.<br />
+              Al Bayader<br />
+              Amman 11814, Jordan
+            </p>
+
+            <a
+              href="https://www.google.com/maps/place/31%C2%B056'44.9%22N+35%C2%B050'36.1%22E/@31.9458046,35.8411722,17z/data=!3m1!4b1!4m5!3m4!1s0x0:0x0!8m2!3d31.9458046!4d35.8433609?hl=en&shorturl=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-card-btn"
+            >
+              Open Google Maps →
+            </a>
+          </div>
+
+          <!-- Phone -->
+          <div class="contact-card contact-card-phone">
+            <div class="contact-icon">📞</div>
+
+            <span class="contact-card-label">Call Us</span>
+
+            <h2 class="contact-card-title">Phone</h2>
+
+            <div class="contact-list">
+              <div class="contact-list-item">
+                <span>Telephone</span>
+                <a href="tel:+96265831172">+962 6 583 1172</a>
+              </div>
+
+              <div class="contact-list-item">
+                <span>Fax</span>
+                <a href="tel:+96265831173">+962 6 583 1173</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="contact-card contact-card-email">
+            <div class="contact-icon">✉️</div>
+
+            <span class="contact-card-label">Write Us</span>
+
+            <h2 class="contact-card-title">Email</h2>
+
+            <div class="contact-email-grid">
+
+              <div class="email-group">
+                <h4>Laboratory</h4>
+
+                <a href="mailto:sajeda@vividsf.com">
+                  sajeda@vividsf.com
+                </a>
+
+                <a href="mailto:lab@vividsf.com">
+                  lab@vividsf.com
+                </a>
+              </div>
+
+              <div class="email-group">
+                <h4>Industrial</h4>
+
+                <a href="mailto:maram@vividsf.com">
+                  maram@vividsf.com
+                </a>
+
+                <a href="mailto:industrial@vividsf.com">
+                  industrial@vividsf.com
+                </a>
+              </div>
+
+              <div class="email-group email-group-full">
+                <h4>Maintenance</h4>
+
+                <a href="mailto:maintenance@vividsf.com">
+                  maintenance@vividsf.com
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===================== FOOTER STRIP ===================== -->
+        <div class="contact-footer-strip">
+
+          <div class="contact-hours">
+            <div class="contact-hours-icon">🕐</div>
+
+            <div>
+              <strong>Business Hours</strong>
+              <span>Sun – Thu · 08:00 – 17:00 (AST)</span>
+            </div>
+          </div>
+
+          <div class="contact-badge" id="availability-badge">
+            <div class="contact-dot" id="availability-dot"></div>
+            <span id="availability-text">Checking…</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <%- include("partials/footer") %>
+
+  <script src="/js/navbar.js" defer></script>
+
+  <script>
+    function updateAvailability() {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const amman = new Date(utc + 3 * 3600000);
+
+      const day = amman.getDay();
+      const timeVal = amman.getHours() * 60 + amman.getMinutes();
+
+      const isWorkDay = day >= 0 && day <= 4;
+      const isWorkTime = timeVal >= 480 && timeVal < 1020;
+      const isOpen = isWorkDay && isWorkTime;
+
+      const badge = document.getElementById("availability-badge");
+      const dot = document.getElementById("availability-dot");
+      const text = document.getElementById("availability-text");
+
+      if (isOpen) {
+        badge.className = "contact-badge contact-badge--open";
+        dot.className = "contact-dot contact-dot--open";
+        text.textContent = "Available now";
+      } else {
+        badge.className = "contact-badge contact-badge--closed";
+        dot.className = "contact-dot contact-dot--closed";
+        text.textContent = "Outside office hours";
+      }
+    }
+
+    updateAvailability();
+    setInterval(updateAvailability, 60000);
+  </script>
+
+</body>
+</html>

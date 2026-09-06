@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title><%= category %> | VIVID Powder Coating</title>
+
+  <meta
+    name="description"
+    content="Explore <%= category %> products, systems, videos, and powder coating solutions from VIVID."
+  />
+
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/Powder_categories.css" />
+</head>
+
+<body>
+
+  <%- include("partials/navbar") %>
+
+  <main class="category-page">
+
+    <!-- ===================== PRODUCTS ===================== -->
+    <section class="products-section">
+      <div class="products-container">
+
+        <div class="products-header">
+          <span class="label">Product Catalogue</span>
+
+          <h1>
+            <%= category %>
+          </h1>
+
+          <p>
+            Browse available systems, product information, and video demonstrations
+            for this powder coating category.
+          </p>
+        </div>
+
+        <% if (categories && categories.length > 0) { %>
+
+          <div class="products-grid">
+            <% categories.forEach(item => { %>
+
+              <article class="product-card">
+
+                <div class="product-image">
+                  <% if (item.photo) { %>
+                    <img
+                      src="<%= item.photo %>"
+                      alt="<%= item.name %>"
+                      loading="lazy"
+                    />
+                  <% } else { %>
+                    <div class="product-placeholder">
+                      <span><%= item.name.charAt(0).toUpperCase() %></span>
+                    </div>
+                  <% } %>
+                </div>
+
+                <div class="product-content">
+
+                  <h3>
+                    <%= item.name %>
+                  </h3>
+
+                  <p>
+                    <%= item.description %>
+                  </p>
+
+                  <div class="product-actions">
+                    <% if (item.video) { %>
+                      <a
+                        href="<%= item.video %>"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-primary"
+                      >
+                        Watch Video
+                      </a>
+                    <% } %>
+
+                    <a href="/contact" class="btn-secondary">
+                      Request Info
+                    </a>
+                  </div>
+
+                </div>
+
+              </article>
+
+            <% }) %>
+          </div>
+
+        <% } else { %>
+
+          <div class="empty-state">
+            <div class="empty-icon">⬡</div>
+
+            <h3>No Products Yet</h3>
+
+            <p>
+              Products for <strong><%= category %></strong> will be added soon.
+              Reach out to our team for immediate assistance.
+            </p>
+
+            <a href="/contact" class="btn-primary">
+              Contact Us
+            </a>
+          </div>
+
+        <% } %>
+
+      </div>
+    </section>
+
+  </main>
+
+  <%- include("partials/footer") %>
+
+  <script src="/js/navbar.js" defer></script>
+</body>
+</html>
