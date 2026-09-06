@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const powderController = require("../Controller/powderCoating_controller");
+const powderController = require("../Controller/powderCoating_Controller");
 const authMiddleware = require("../../middleware/middleware");
 const upload = require("../../utils/uploads");
 
